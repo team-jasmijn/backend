@@ -7,6 +7,7 @@ using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 const string authenticationScheme = "bearer";
+
 builder.Services.AddMvcCore();
 builder.Services.AddDistributedMemoryCache();
 //Json defaults
@@ -49,15 +50,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseAuthentication();
-app.UseEndpoints(MapEndpoints);
-
-static void MapEndpoints(IEndpointRouteBuilder endpoints)
+app.UseEndpoints(e =>
 {
-    endpoints.MapControllers();
-    endpoints.MapControllerRoute(
+    e.MapControllers();
+    e.MapControllerRoute(
         name: "Default",
-        pattern: "{controller=Home}/{action=Index}/{id?}"
+        pattern: "{area=Student}/{controller=Home}/{action=Index}/{id?}"
     );
-}
+});
 
 app.Run();
