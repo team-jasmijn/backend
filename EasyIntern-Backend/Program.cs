@@ -1,27 +1,63 @@
-var builder = WebApplication.CreateBuilder(args);
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using Data;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+var builder = WebApplication.CreateBuilder(args);
+const string authenticationScheme = "bearer";
+builder.Services.AddMvcCore();
+builder.Services.AddDistributedMemoryCache();
+//Json defaults
+builder.Services.AddControllers().AddJsonOptions(e =>
+{
+    e.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    e.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
+
+JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+{
+    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+    NullValueHandling = NullValueHandling.Ignore,
+};
+
+//authentication
+builder.Services.AddAuthentication(authenticationScheme);
+builder.Services.AddSession(e => e.Cookie.HttpOnly = true);
+//database connection
+string connectionString = builder.Configuration["Data:Context:ConnectionString"];
+builder.Services.AddDbContext<Context>(e =>
+{
+    e.UseMySql(connectionString,
+        new MariaDbServerVersion(new Version(10, 3, 31)), o => o.MigrationsAssembly("Data"));
+});
+
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseDeveloperExceptionPage();
 }
-
+app.UseRouting();
+app.UseHsts();
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
+app.UseAuthentication();
+app.UseEndpoints(MapEndpoints);
 
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+static void MapEndpoints(IEndpointRouteBuilder endpoints)
+{
+    endpoints.MapControllers();
+    endpoints.MapControllerRoute(
+        name: "Default",
+        pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+}
 
 app.Run();

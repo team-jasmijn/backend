@@ -7,4 +7,21 @@
         <RootNamespace>EasyIntern_Backend</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Data\Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Areas\Company\Controllers\" />
+      <Folder Include="Areas\Student\Controllers\" />
+      <Folder Include="wwwroot\" />
+    </ItemGroup>
+
 </Project>
