@@ -12,6 +12,7 @@ public class AccountController : Controller
     {
         _context = context;
     }
+
     [Route("")]
     public IActionResult Index()
     {
