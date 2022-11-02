@@ -1,0 +1,1 @@
+﻿Console.WriteLine(nameof(Data.Models.User.Name));

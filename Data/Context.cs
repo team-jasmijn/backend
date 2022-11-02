@@ -5,6 +5,9 @@ using File = Data.Models.File;
 
 namespace Data
 {
+    /// <summary>
+    /// The connection with the DB
+    /// </summary>
     public class Context : DbContext
     {
         public Context()

@@ -9,4 +9,9 @@ public class BCryptHelper
         user.Salt = BCrypt.Net.BCrypt.GenerateSalt();
         user.Hash = BCrypt.Net.BCrypt.HashPassword(password + user.Salt);
     }
+
+    public static bool ValidatePassword(User user, string password)
+    {
+        return BCrypt.Net.BCrypt.Verify(password + user.Salt, user.Hash);
+    }
 }
