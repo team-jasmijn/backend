@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Data;
+using Data.Enums;
 using Data.Helpers;
 using Data.Models;
 using EasyIntern_Backend.Models;
@@ -25,26 +26,90 @@ public class AccountController : Controller
         _context = context;
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] JsonModelRegisterUser model )
+    [HttpPost("register-student")]
+    public async Task<IActionResult> RegisterStudent([FromBody] JsonModelRegisterStudent model )
     {
         if (model.Password != model.RepeatPassword) return BadRequest("Passwords do not match");
+        if (await _context.Users.AnyAsync(e => e.Email == model.Email)) return BadRequest("A user has already been found using this email");
 
         var user = new User()
         {
             Name = model.Name,
             Email = model.Email,
-            TimeZoneId = "Africa/Abidjan"
+            TimeZoneId = "Africa/Abidjan",
+            UserType = UserType.Student,
+            ProfileSettings = new List<ProfileSetting>()
+            {
+                new ProfileSetting()
+                {
+                    Key = nameof(model.Description),
+                    Value = model.Description
+                },
+                 new ProfileSetting()
+                 {
+                     Key = nameof(model.Experience),
+                     Value = model.Experience
+                 },
+                 new ProfileSetting()
+                 {
+                      Key = nameof(model.Education),
+                      Value = model.Education,
+                 },
+                 new ProfileSetting()
+                 {
+                     Key = nameof(model.Goals),
+                     Value = model.Goals
+                 },
+                 new ProfileSetting()
+                 {
+                     Key = nameof(model.EducationLevel),
+                     Value = model.EducationLevel.ToString()
+                 }
+            }
         };
+
         BCryptHelper.ConfigureUserPassword(user, model.Password);
 
-        if (await _context.Users.AnyAsync(e => e.Email == model.Email)) return BadRequest("A user has already been found using this email");
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
-        string token = GetJwtToken(user);
-        return Ok(token);
+        return Ok();
     }
+
+    [HttpPost("register-company")]
+    public async Task<IActionResult> RegisterCompany([FromBody] JsonModelRegisterCompany model)
+    {
+        if (model.Password != model.RepeatPassword) return BadRequest("Passwords do not match");
+        if (await _context.Users.AnyAsync(e => e.Email == model.Email)) return BadRequest("A user has already been found using this email");
+
+        var user = new User()
+        {
+            Name = model.CompanyName,
+            Email = model.Email,
+            TimeZoneId = "Africa/Abidjan",
+            UserType = UserType.Company,
+            ProfileSettings = new List<ProfileSetting>()
+            {
+                new ProfileSetting()
+                {
+                    Key = nameof(model.Description),
+                    Value = model.Description
+                },
+                new ProfileSetting()
+                {
+                    Key = nameof(model.Education),
+                    Value = model.Education
+                }
+            }
+        };
+        BCryptHelper.ConfigureUserPassword(user, model.Password);
+
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+
+
 
     [HttpGet("validate")]
     [Authorize]
@@ -53,7 +118,7 @@ public class AccountController : Controller
     [HttpPost("login")]
     public async Task<IActionResult> Login([Bind("Email,Hash")][FromBody] User user)
     {
-        const string safeReturnError = "User and email do not match";
+        const string safeReturnError = "Email and password do not match";
         User dbUser = await _context.Users.FirstOrDefaultAsync(e => e.Email == user.Email);
         if (dbUser == null) return BadRequest(safeReturnError);
         if (!BCryptHelper.ValidatePassword(dbUser, user.Hash)) 

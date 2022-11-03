@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Enums;
 
 namespace Data.Models;
 
@@ -19,7 +20,7 @@ public class User
     public string Email { get; set; }
     public string Hash { get; set; }
     public string Salt { get; set; }
-
+    public UserType UserType { get; set; }
 
     public List<File> Files { get; set; }
     public List<Flirt> Flirts { get; set; }
