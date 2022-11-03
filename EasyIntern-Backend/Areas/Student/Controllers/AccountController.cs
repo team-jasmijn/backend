@@ -18,7 +18,7 @@ namespace EasyIntern_Backend.Areas.Student.Controllers
         [Authorize]
         public IActionResult Index()
         {
-
+            return Ok();
         }
     }
 }
