@@ -19,7 +19,7 @@ public class ProfileSetting
     [ForeignKey(nameof(UserId))]
     public User User { get; set; }
 
-    public int ProfileSettingOptionId { get; set; }
+    public int? ProfileSettingOptionId { get; set; }
     [ForeignKey(nameof(ProfileSettingOptionId))]
     public ProfileSettingOption ProfileSettingOption { get; set; }
 }
