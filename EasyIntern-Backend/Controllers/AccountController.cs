@@ -64,6 +64,11 @@ public class AccountController : Controller
                  {
                      Key = nameof(model.EducationLevel),
                      Value = model.EducationLevel.ToString()
+                 },
+                 new ProfileSetting()
+                 {
+                     Key = nameof(model.School),
+                     Value = model.School
                  }
             }
         };
