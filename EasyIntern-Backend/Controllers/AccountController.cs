@@ -144,9 +144,8 @@ public class AccountController : Controller
             {
                 new Claim("Id", user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("Name", user.Name),
                 new Claim("Email", user.Email),
-                new Claim("timeZoneId", user.TimeZoneId)
+                new Claim("timeZoneId", user.TimeZoneId ?? "")
             }),
             Expires = DateTime.MaxValue,
             Issuer = issuer,
