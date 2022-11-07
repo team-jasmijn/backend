@@ -21,6 +21,7 @@
 
     <ItemGroup>
       <Folder Include="Areas\Company\Controllers\" />
+      <Folder Include="Attributes\Filters\" />
       <Folder Include="wwwroot\" />
     </ItemGroup>
 

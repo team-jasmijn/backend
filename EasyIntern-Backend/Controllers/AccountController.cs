@@ -114,8 +114,6 @@ public class AccountController : Controller
         return Ok();
     }
 
-
-
     [HttpGet("validate")]
     [Authorize]
     public IActionResult Validate() => Ok(); //check if user is logged in
@@ -132,6 +130,64 @@ public class AccountController : Controller
         return Ok(token);
     }
 
+    [HttpGet("")]
+    [Authorize]
+    public async Task<IActionResult> GetProfileData()
+    {
+        int userId = User.Id();
+        User user = await _context.Users.Include(e => e.ProfileSettings).AsNoTracking().FirstOrDefaultAsync(e => e.Id == userId);
+        if (user == null) return BadRequest("User was not found");
+        return Ok(new
+        {
+            Education = user.ProfileSettings.FirstOrDefault(e => e.Key == "Education")?.Value,
+            EducationLevel = user.ProfileSettings.FirstOrDefault(e => e.Key == "EducationLevel")?.Value,
+            Skills = user.ProfileSettings.FirstOrDefault(e => e.Key == "Skills")?.Value,
+            Goals = user.ProfileSettings.FirstOrDefault(e => e.Key == "Goals")?.Value,
+            Name = user.Name,
+            Email = user.Email
+        });
+    }
+
+    [HttpPost("update")]
+    [Authorize]
+    public async Task<IActionResult> Update([FromBody] Dictionary<string, string> model)
+    {
+
+        int userId = User.Id();
+        User user = await _context.Users.Include(e => e.ProfileSettings)
+            .FirstOrDefaultAsync(e => e.Id == userId);
+        if (user == null) return BadRequest();
+
+        if (model.ContainsKey("email")) model.Remove("email");
+
+        if (model.ContainsKey("name"))
+        {
+            user.Name = model["name"];
+            model.Remove("name");
+        }
+
+        foreach (KeyValuePair<string, string> pair in model)
+        {
+            if (user.ProfileSettings.Any(e => e.Key == pair.Key))
+            {
+                user.ProfileSettings.First(e => e.Key == pair.Key).Value = pair.Value;
+            }
+            else
+            {
+                user.ProfileSettings.Add(new ProfileSetting()
+                {
+                    Key = pair.Key,
+                    Value = pair.Value
+                });
+            }
+
+        }
+
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+
     [NonAction]
     private string GetJwtToken(User user)
     {
@@ -145,6 +201,7 @@ public class AccountController : Controller
                 new Claim("Id", user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("Email", user.Email),
+                new Claim("UserType", user.UserType.ToString()),
                 new Claim("timeZoneId", user.TimeZoneId ?? "")
             }),
             Expires = DateTime.MaxValue,
