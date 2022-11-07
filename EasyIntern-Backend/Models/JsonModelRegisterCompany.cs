@@ -4,7 +4,7 @@ namespace EasyIntern_Backend.Models;
 
 public class JsonModelRegisterCompany
 {
-
+    [Required]
     public string CompanyName { get; set; }
     [Required]
     public string Email { get; set; }
