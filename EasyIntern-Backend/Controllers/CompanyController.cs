@@ -6,17 +6,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyIntern_Backend.Areas.Student.Controllers
+namespace EasyIntern_Backend.Controllers
 {
-    [Route("student/company"), Authorize, Area("Student"), IsStudent]
+    [Route("company"), Authorize]
     public class CompanyController : Controller
     {
         private readonly Context _context;
-        private const int takeAmount = 2;
+        private const int TakeAmount = 10;
         public CompanyController(Context context)
         {
             _context = context;
         }
+
+        [IsStudent]
         [HttpGet("")]
         [HttpGet("{page:int}")]
         public async Task<IActionResult> Index(int? page)
@@ -28,8 +30,16 @@ namespace EasyIntern_Backend.Areas.Student.Controllers
             if (student == null) return BadRequest();
             var filter = DynamicFiltersHelper.GenerateMatchingFilterForCompany(student);
             IQueryable<User> users = _context.Users.Where(filter);
-            List<User> companies = await users.Skip(takeAmount * (page ?? 0)).Take(takeAmount).ToListAsync();
-            return Json(companies);
+            List<User> companies = await users.Skip(TakeAmount * (page ?? 0)).Take(TakeAmount).ToListAsync();
+            return Json(companies.Select(e => new
+            {
+                e.Name,
+                e.Email,
+                e.Id,
+            }));
         }
+
+
+
     }
 }

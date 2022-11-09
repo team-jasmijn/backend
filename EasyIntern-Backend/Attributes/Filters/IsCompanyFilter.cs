@@ -12,7 +12,7 @@ public class IsCompanyFilter : ActionFilterAttribute
 
     public override void OnActionExecuting(ActionExecutingContext context)
     {
-        if (!context.HttpContext.User.IsStudent())
+        if (context.HttpContext.User.Identity?.IsAuthenticated is true && !context.HttpContext.User.IsStudent())
             return;
 
         context.Result = new BadRequestResult();
