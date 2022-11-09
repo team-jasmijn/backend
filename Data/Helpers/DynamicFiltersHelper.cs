@@ -8,7 +8,7 @@ namespace Data.Helpers;
 public static class DynamicFiltersHelper
 {
     /// <summary>
-    /// generates a filter that can be put in the database that matches the properties of the student and the company
+    /// generates a filter that can be put in the database that matches the profile settings of the student and the company
     /// </summary>
     /// <param name="student">The student with all of its profile settings</param>
     /// <param name="excludeKeys">The excluded keys. Defaults at Description and EducationLevel</param>
