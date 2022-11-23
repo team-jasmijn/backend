@@ -1,0 +1,22 @@
+# balls
+
+services:
+  web:
+    build: .
+    ports:
+    - 80:80
+    depends_on:
+    - mariadb
+    restart: on-failure
+  
+  mariadb:
+    image: mariadb:10.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: easyintern
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    restart: on-failure
+    volumes:
+     - .docker/mariadb:/var/lib/mysql
+
