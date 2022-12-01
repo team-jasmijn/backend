@@ -27,7 +27,11 @@ namespace EasyIntern_Backend.Controllers
             User student = await _context.Users.AsNoTracking()
                 .Include(e => e.ProfileSettings)
                 .SingleOrDefaultAsync(u => u.Id == userId);
-            if (student == null) return BadRequest();
+            if (student == null)
+            {
+                ModelState.AddModelError("UserNotFound", "User was not found");
+                return BadRequest(ModelState);
+            }
             var filter = DynamicFiltersHelper.GenerateMatchingFilterForCompany(student);
             IQueryable<User> users = _context.Users.Where(filter);
             List<User> companies = await users.Skip(TakeAmount * (page ?? 0)).Take(TakeAmount).ToListAsync();

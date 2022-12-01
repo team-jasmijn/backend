@@ -15,6 +15,9 @@ public class IsCompanyFilter : ActionFilterAttribute
         if (context.HttpContext.User.Identity?.IsAuthenticated is true && !context.HttpContext.User.IsStudent())
             return;
 
-        context.Result = new BadRequestResult();
+        context.Result = new BadRequestObjectResult(new
+        {
+            authorization = "User is not authenticated or not a student"
+        });
     }
 }

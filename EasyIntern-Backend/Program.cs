@@ -67,6 +67,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 
+app.UseExceptionHandler("/error");
+app.UseStatusCodePagesWithReExecute("/error", "?status={0}");
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -86,7 +88,7 @@ app.UseEndpoints(e =>
     e.MapControllers();
     e.MapControllerRoute(
         name: "Default",
-        pattern: "{area=Student}/{controller=Home}/{action=Index}/{id?}"
+        pattern: "{area?}/{controller=Home}/{action=Index}/{id?}"
     );
 });
 
