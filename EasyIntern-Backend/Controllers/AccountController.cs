@@ -123,7 +123,15 @@ public class AccountController : Controller
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
-        return Ok();
+        // Return the user object
+        // TODO: convert this to something more portable
+        return Json(new  {
+            id = user.Id,
+            name = user.Name,
+            email = user.Email,
+            userType = user.UserType,
+            profileSettings = user.ProfileSettings.ToDictionary(e => e.Key, e => e.Value)
+        });
     }
 
     [HttpGet("validate")]
@@ -131,12 +139,12 @@ public class AccountController : Controller
     public IActionResult Validate() => Ok(); //check if user is logged in
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([Bind("Email,Hash")][FromBody] User user)
+    public async Task<IActionResult> Login([FromBody] JsonModelAccountLogin model)
     {
         const string safeReturnError = "Email and password do not match";
-        User dbUser = await _context.Users.FirstOrDefaultAsync(e => e.Email == user.Email);
+        User dbUser = await _context.Users.FirstOrDefaultAsync(e => e.Email == model.Email);
         if (dbUser == null) ModelState.AddModelError("AuthenticationError", safeReturnError);
-        if (!BCryptHelper.ValidatePassword(dbUser, user.Hash))
+        if (!BCryptHelper.ValidatePassword(dbUser, model.Password))
             ModelState.AddModelError("AuthenticationError", safeReturnError);
         if (!ModelState.IsValid)
         {
