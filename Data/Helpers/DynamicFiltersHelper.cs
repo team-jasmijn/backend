@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Linq.Expressions;
 using Data.Enums;
 using Data.Models;
@@ -16,7 +16,7 @@ public static class DynamicFiltersHelper
     public static Expression<Func<User, bool>> GenerateMatchingFilterForCompany(User student, string[] excludeKeys = null)
     {
         if (student.UserType.HasFlag(UserType.Company))
-            throw new InvalidEnumArgumentException("Student cannot be a company");
+            throw new InvalidEnumArgumentException($"parameter '{nameof(student)}' cannot be a company");
 
         excludeKeys ??= new[] { "EducationLevel", "Description" };
 

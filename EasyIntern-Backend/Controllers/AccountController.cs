@@ -158,7 +158,6 @@ public class AccountController : Controller
             .FirstOrDefaultAsync(e => e.Id == userId);
         if (user == null) return BadRequest();
 
-        if (model.ContainsKey("email")) model.Remove("email");
 
         if (model.ContainsKey("name"))
         {
@@ -168,6 +167,11 @@ public class AccountController : Controller
 
         foreach (KeyValuePair<string, string> pair in model)
         {
+            if (!await _context.ProfilesettingsOptions.AnyAsync(e => e.Key == pair.Key))
+            {
+                ModelState.AddModelError("InvalidProfileSetting", $"The key {pair.Key} cannot be added to your profile");
+                continue;
+            }
             if (user.ProfileSettings.Any(e => e.Key == pair.Key))
             {
                 user.ProfileSettings.First(e => e.Key == pair.Key).Value = pair.Value;
@@ -180,12 +184,11 @@ public class AccountController : Controller
                     Value = pair.Value
                 });
             }
-
         }
 
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
-        return Ok();
+        return Ok(ModelState);
     }
 
     [NonAction]
