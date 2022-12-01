@@ -56,9 +56,16 @@ builder.Services.AddDbContext<Context>(e =>
         new MariaDbServerVersion(new Version(10, 3, 31)), o => o.MigrationsAssembly("Data"));
 });
 
-
-
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    using (var context = scope.ServiceProvider.GetService<Context>())
+    {
+        await context.Database.MigrateAsync();
+    }
+}
+
 
 app.UseExceptionHandler("/error");
 app.UseStatusCodePagesWithReExecute("/error", "?status={0}");
