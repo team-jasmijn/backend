@@ -1,4 +1,5 @@
-﻿using Data.Models;
+﻿using Data.Migrations;
+using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Action = Data.Models.Action;
 using File = Data.Models.File;
@@ -31,6 +32,7 @@ namespace Data
             modelBuilder.Entity<User>().HasMany(e => e.ProfileSettings);
             modelBuilder.Entity<User>().HasMany(e => e.SentChatMessages);
             //Entity frameworks flips when configuring this via Attribute modeling, so leave this
+            SeedConfiguration.Seed(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
 
