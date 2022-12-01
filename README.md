@@ -23,3 +23,10 @@
 + init the database by running `dotnet ef database update --startup-project Portal --project Data`
 
 Ik hoop dat deze ding grote blij werkt, ik weet niet alles precies. 
+
+### Arch Supremists
+
++ `yay -Sy dotnet-runtime-6.0 dotnet-sdk-6.0 dotnet-targeting-pack-6.0 aspnet-runtime-6.0`
++ `docker run -d -p 3306:3306 --name mariadb -e MYSQL_ROOT_PASSWORD=root mariadb`
++ `dotnet tool install --global dotnet-ef`
++ `dotnet ef database update --startup-project Portal --project Data`
