@@ -48,7 +48,11 @@ namespace EasyIntern_Backend.Controllers
         public async Task<IActionResult> FlirtCompany(int companyId)
         {
             User company = await _context.Users.FirstOrDefaultAsync(e => e.Id == companyId && e.UserType.HasFlag(UserType.Company));
-            if (company == null) return NotFound();
+            if (company == null)
+            {
+                ModelState.AddModelError("UserNotFound", "User was not found");
+                return NotFound(ModelState);
+            }
             Flirt flirt = new Flirt()
             {
                 CompanyId = companyId,
@@ -67,7 +71,11 @@ namespace EasyIntern_Backend.Controllers
         {
             int userId = User.Id();
             Flirt flirt = await _context.Flirts.FirstOrDefaultAsync(e => e.Id == flirtId && e.CompanyId == userId && e.Status == FlirtStatus.StudentFlirted);
-            if (flirt == null) return NotFound();
+            if (flirt == null)
+            {
+                ModelState.AddModelError("FlirtNotFound", "Flirt was not found");
+                return NotFound(ModelState);
+            }
             flirt.Status = FlirtStatus.CompanyFlirted;
             Chat chat = new Chat()
             {
@@ -90,7 +98,11 @@ namespace EasyIntern_Backend.Controllers
         {
             int userId = User.Id();
             Flirt flirt = await _context.Flirts.FirstOrDefaultAsync(e => e.Id == flirtId && e.CompanyId == userId && e.Status == FlirtStatus.StudentFlirted);
-            if (flirt == null) return NotFound();
+            if (flirt == null)
+            {
+                ModelState.AddModelError("FlirtNotFound", "Flirt was not found");
+                return NotFound(ModelState);
+            }
             flirt.Status = FlirtStatus.Finished;
             _context.Flirts.Update(flirt);
             await _context.SaveChangesAsync();

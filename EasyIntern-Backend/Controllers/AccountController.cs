@@ -29,8 +29,14 @@ public class AccountController : Controller
     [HttpPost("register-student")]
     public async Task<IActionResult> RegisterStudent([FromBody] JsonModelRegisterStudent model )
     {
-        if (model.Password != model.RepeatPassword) return BadRequest("Passwords do not match");
-        if (await _context.Users.AnyAsync(e => e.Email == model.Email)) return BadRequest("A user has already been found using this email");
+        if (User.Identity?.IsAuthenticated is true) ModelState.AddModelError("Authentication", "User is already logged in");
+        if (model.Password != model.RepeatPassword) ModelState.AddModelError("RepeatPassword", "Passwords do not match");
+        if (await _context.Users.AnyAsync(e => e.Email == model.Email)) ModelState.AddModelError("Email","A user has already been found using this email");
+        
+        if (!ModelState.IsValid)
+        {
+            return Json(ModelState);
+        }
 
         var user = new User()
         {
@@ -84,8 +90,14 @@ public class AccountController : Controller
     [HttpPost("register-company")]
     public async Task<IActionResult> RegisterCompany([FromBody] JsonModelRegisterCompany model)
     {
-        if (model.Password != model.RepeatPassword) return BadRequest("Passwords do not match");
-        if (await _context.Users.AnyAsync(e => e.Email == model.Email)) return BadRequest("A user has already been found using this email");
+        if (User.Identity?.IsAuthenticated is true) ModelState.AddModelError("Authentication", "User is already logged in");
+        if (model.Password != model.RepeatPassword) ModelState.AddModelError("RepeatPassword", "Passwords do not match");
+        if (await _context.Users.AnyAsync(e => e.Email == model.Email)) ModelState.AddModelError("Email", "A user has already been found using this email");
+
+        if (!ModelState.IsValid)
+        {
+            return Json(ModelState);
+        }
 
         var user = new User()
         {
@@ -123,9 +135,13 @@ public class AccountController : Controller
     {
         const string safeReturnError = "Email and password do not match";
         User dbUser = await _context.Users.FirstOrDefaultAsync(e => e.Email == user.Email);
-        if (dbUser == null) return BadRequest(safeReturnError);
-        if (!BCryptHelper.ValidatePassword(dbUser, user.Hash)) 
-            return BadRequest(safeReturnError);
+        if (dbUser == null) ModelState.AddModelError("AuthenticationError", safeReturnError);
+        if (!BCryptHelper.ValidatePassword(dbUser, user.Hash))
+            ModelState.AddModelError("AuthenticationError", safeReturnError);
+        if (!ModelState.IsValid)
+        {
+            return Json(ModelState);
+        }
         string token = GetJwtToken(dbUser);
         return Ok(token);
     }
@@ -136,7 +152,11 @@ public class AccountController : Controller
     {
         int userId = User.Id();
         User user = await _context.Users.Include(e => e.ProfileSettings).AsNoTracking().FirstOrDefaultAsync(e => e.Id == userId);
-        if (user == null) return BadRequest("User was not found");
+        if (user == null)
+        {
+            ModelState.AddModelError("UserNotFound", "User was not found");
+            return Json(ModelState);
+        }
         return Ok(new
         {
             Education = user.ProfileSettings.FirstOrDefault(e => e.Key == "Education")?.Value,
@@ -156,7 +176,11 @@ public class AccountController : Controller
         int userId = User.Id();
         User user = await _context.Users.Include(e => e.ProfileSettings)
             .FirstOrDefaultAsync(e => e.Id == userId);
-        if (user == null) return BadRequest();
+        if (user == null)
+        {
+            ModelState.AddModelError("UserNotFound", "User was not found");
+            return BadRequest(ModelState);
+        }
 
         if (model.ContainsKey("email")) model.Remove("email");
 
