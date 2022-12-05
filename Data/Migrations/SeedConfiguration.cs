@@ -30,7 +30,7 @@ public static class SeedConfiguration
                 Salt = "$2a$11$FIhli04K3CDnTp4ObcYIb.",
                 UserType = UserType.Moderator,
                 TimeZoneId = "Africa/Abidjan",
-                Id = 1,
+                Id = -1,
                 Name = "Arjan Timmerman"
             }
         );
