@@ -126,11 +126,11 @@ public class AccountController : Controller
         // Return the user object
         // TODO: convert this to something more portable
         return Json(new  {
-            id = user.Id,
-            name = user.Name,
-            email = user.Email,
-            userType = user.UserType,
-            profileSettings = user.ProfileSettings.ToDictionary(e => e.Key, e => e.Value)
+            Id = user.Id,
+            Name = user.Name,
+            Email = user.Email,
+            UserType = user.UserType,
+            ProfileSettings = user.ProfileSettings.ToDictionary(e => e.Key, e => e.Value)
         });
     }
 
