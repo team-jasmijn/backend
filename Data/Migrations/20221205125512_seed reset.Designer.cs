@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20221201110602_initial seed")]
-    partial class initialseed
+    [Migration("20221205125512_seed reset")]
+    partial class seedreset
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -262,9 +262,6 @@ namespace Data.Migrations
                     b.Property<DateTime?>("ModifyDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Value")
-                        .HasColumnType("longtext");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Id", "CreateDate", "ModifyDate");
@@ -373,7 +370,7 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "artimmerman@landstede.nl",
                             Hash = "$2a$11$A1PAL2tcek6yMqg8VVVzauteuOFGnD1S4DoqlPP/Hf9ulBwfJTS8y",

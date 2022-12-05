@@ -14,6 +14,5 @@ public class ProfileSettingOption
     public DateTime? ModifyDate { get; set; }
     [MaxLength(50)]
     public string Key { get; set; }
-    public string Value { get; set; }
     public List<ProfileSetting> ProfileSettings { get; set; }
 }
