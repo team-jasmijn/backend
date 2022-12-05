@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20221205125443_remove value from profileSettingOption")]
+    partial class removevaluefromprofileSettingOption
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,44 +267,6 @@ namespace Data.Migrations
                     b.HasIndex("Id", "CreateDate", "ModifyDate");
 
                     b.ToTable("ProfilesettingsOptions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -7,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "Description"
-                        },
-                        new
-                        {
-                            Id = -8,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "Education"
-                        },
-                        new
-                        {
-                            Id = -9,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "Goals"
-                        },
-                        new
-                        {
-                            Id = -10,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "Experience"
-                        },
-                        new
-                        {
-                            Id = -11,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "School"
-                        },
-                        new
-                        {
-                            Id = -12,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "EducationLevel"
-                        });
                 });
 
             modelBuilder.Entity("Data.Models.Role", b =>
@@ -364,19 +328,6 @@ namespace Data.Migrations
                     b.HasIndex("Id", "CreateDate", "ModifyDate");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -1,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "artimmerman@landstede.nl",
-                            Hash = "$2a$11$A1PAL2tcek6yMqg8VVVzauteuOFGnD1S4DoqlPP/Hf9ulBwfJTS8y",
-                            Name = "Arjan Timmerman",
-                            Salt = "$2a$11$FIhli04K3CDnTp4ObcYIb.",
-                            TimeZoneId = "Africa/Abidjan",
-                            UserType = 4
-                        });
                 });
 
             modelBuilder.Entity("Data.Models.UserRole", b =>
