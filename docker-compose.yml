@@ -1,18 +1,10 @@
 # balls
 
 services:
-  web:
-    build: .
-    ports:
-    - 80:80
-    depends_on:
-    - mariadb
-    restart: on-failure
-  
   mariadb:
     image: mariadb:10.7
     ports:
-    - 3306:3306
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: easyintern
@@ -20,5 +12,14 @@ services:
       MYSQL_PASSWORD: root
     restart: on-failure
     volumes:
-     - .docker/mariadb:/var/lib/mysql
-
+      - .docker/mariadb:/var/lib/mysql
+  web:
+    build: .
+    ports:
+      - 80:80
+    depends_on:
+      - mariadb
+    restart: on-failure
+    environment:
+      # Override the appsettings.json connection string
+      Data__Context__ConnectionString: Server=mariadb;Database=easyintern;User=root;Password=root;Port=3306
