@@ -11,6 +11,7 @@ public class JsonModelRegisterCompany
     [Required]
     public string Password { get; set; }
     [Required]
+    
     public string RepeatPassword { get; set; }
 
     public string Description { get; set; }
