@@ -1,0 +1,337 @@
+{
+	"info": {
+		"_postman_id": "bf3f0d01-0837-486d-b165-010f233e7a71",
+		"name": "Internably",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17389151"
+	},
+	"item": [
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "Get students",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjciLCJqdGkiOiI0Y2Y2M2YwYi0wN2FmLTQ5MWUtYTZlOS03ZWM0YTIxZThlNjEiLCJFbWFpbCI6ImluZm9AYnJpZ2h0Zmxvdy5ubCIsIlVzZXJUeXBlIjoiQ29tcGFueSIsInRpbWVab25lSWQiOiJBZnJpY2EvQWJpZGphbiIsIm5iZiI6MTY2Nzk4OTM0OSwiZXhwIjoyNTM0MDIyOTcyMDAsImlhdCI6MTY2Nzk4OTM0OSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIyOS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjI5LyJ9.f8S5Ja-QWeyF42LVWrVmIrHVq5pdqEVCGoAsFHK6nKMEQpF63hsyUc4CE9F5bVQ9W-BuyFvkSuuszorFcz-1LQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7229/flirts",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7229",
+							"path": [
+								"flirts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send flirt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjciLCJqdGkiOiI0Y2Y2M2YwYi0wN2FmLTQ5MWUtYTZlOS03ZWM0YTIxZThlNjEiLCJFbWFpbCI6ImluZm9AYnJpZ2h0Zmxvdy5ubCIsIlVzZXJUeXBlIjoiQ29tcGFueSIsInRpbWVab25lSWQiOiJBZnJpY2EvQWJpZGphbiIsIm5iZiI6MTY2Nzk4OTM0OSwiZXhwIjoyNTM0MDIyOTcyMDAsImlhdCI6MTY2Nzk4OTM0OSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIyOS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjI5LyJ9.f8S5Ja-QWeyF42LVWrVmIrHVq5pdqEVCGoAsFHK6nKMEQpF63hsyUc4CE9F5bVQ9W-BuyFvkSuuszorFcz-1LQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7229/flirts/flirt-student/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7229",
+							"path": [
+								"flirts",
+								"flirt-student",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deny flirt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjciLCJqdGkiOiI0Y2Y2M2YwYi0wN2FmLTQ5MWUtYTZlOS03ZWM0YTIxZThlNjEiLCJFbWFpbCI6ImluZm9AYnJpZ2h0Zmxvdy5ubCIsIlVzZXJUeXBlIjoiQ29tcGFueSIsInRpbWVab25lSWQiOiJBZnJpY2EvQWJpZGphbiIsIm5iZiI6MTY2Nzk4OTM0OSwiZXhwIjoyNTM0MDIyOTcyMDAsImlhdCI6MTY2Nzk4OTM0OSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIyOS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjI5LyJ9.f8S5Ja-QWeyF42LVWrVmIrHVq5pdqEVCGoAsFHK6nKMEQpF63hsyUc4CE9F5bVQ9W-BuyFvkSuuszorFcz-1LQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7229/flirts/deny-student/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7229",
+							"path": [
+								"flirts",
+								"deny-student",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Student",
+			"item": [
+				{
+					"name": "Get Companies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjQiLCJqdGkiOiIwODgxNTIwMC0wYTMzLTQ4ZWYtOGNhNi1lYzk1OTUwMzQwMjciLCJFbWFpbCI6InNpbGdvc2tlckBnbWFpbC5jb20iLCJVc2VyVHlwZSI6IjAiLCJ0aW1lWm9uZUlkIjoiQWZyaWNhL0FiaWRqYW4iLCJuYmYiOjE2Njc1NTM1MzksImV4cCI6MjUzNDAyMjk3MjAwLCJpYXQiOjE2Njc1NTM1MzksImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMjkvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIyOS8ifQ.flmX_tTKDqq1cZui4q2Qr-llqoTbwxBrErWPwfFD-Y1lShj9GyH_bJdPus7eo4NIQo8v7I0fwZbv2I7cOGV-AA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7229/company",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7229",
+							"path": [
+								"company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send flirt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjQiLCJqdGkiOiIwODgxNTIwMC0wYTMzLTQ4ZWYtOGNhNi1lYzk1OTUwMzQwMjciLCJFbWFpbCI6InNpbGdvc2tlckBnbWFpbC5jb20iLCJVc2VyVHlwZSI6IjAiLCJ0aW1lWm9uZUlkIjoiQWZyaWNhL0FiaWRqYW4iLCJuYmYiOjE2Njc1NTM1MzksImV4cCI6MjUzNDAyMjk3MjAwLCJpYXQiOjE2Njc1NTM1MzksImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMjkvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIyOS8ifQ.flmX_tTKDqq1cZui4q2Qr-llqoTbwxBrErWPwfFD-Y1lShj9GyH_bJdPus7eo4NIQo8v7I0fwZbv2I7cOGV-AA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7229/flirts/flirt-company/7",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7229",
+							"path": [
+								"flirts",
+								"flirt-company",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Register Student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"silgosker@gmail.com\",\r\n    \"password\":\"test123\",\r\n    \"repeatPassword\":\"test123\",\r\n    \"name\":\"Sil Gosker\",\r\n    \"goals\":\"C#\",\r\n    \"description\":\"Coole gozer, lekker vrolijk\",\r\n    \"experience\":\"C#\",\r\n    \"educationLevel\":\"4\",\r\n    \"school\":\"Landstede\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7229/account/register-student",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7229",
+					"path": [
+						"account",
+						"register-student"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Company",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"info@brightflow.nl\",\r\n    \"password\":\"test123\",\r\n    \"repeatPassword\":\"test123\",\r\n    \"companyName\":\"BrightFlow\",\r\n    \"education\":\"We zijn op zoek naar mensen van het Landstede\",\r\n    \"description\":\"Cool bedrijf, je gaat veel met C# werken. Er is veel persoonlijke begeleiding\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7229/account/register-company",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7229",
+					"path": [
+						"account",
+						"register-company"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"silgosker@gmail.com\",\r\n    \"hash\":\"test123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7229/account/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7229",
+					"path": [
+						"account",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Company",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"info@brightflow.nl\",\r\n    \"hash\":\"test123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Profile Data",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjQiLCJqdGkiOiIwODgxNTIwMC0wYTMzLTQ4ZWYtOGNhNi1lYzk1OTUwMzQwMjciLCJFbWFpbCI6InNpbGdvc2tlckBnbWFpbC5jb20iLCJVc2VyVHlwZSI6IjAiLCJ0aW1lWm9uZUlkIjoiQWZyaWNhL0FiaWRqYW4iLCJuYmYiOjE2Njc1NTM1MzksImV4cCI6MjUzNDAyMjk3MjAwLCJpYXQiOjE2Njc1NTM1MzksImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMjkvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIyOS8ifQ.flmX_tTKDqq1cZui4q2Qr-llqoTbwxBrErWPwfFD-Y1lShj9GyH_bJdPus7eo4NIQo8v7I0fwZbv2I7cOGV-AA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7229/account/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7229",
+					"path": [
+						"account",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Profile Data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"education\":\"We zijn op zoek naar mensen van het Landstede of Deltion\",\r\n    \"description\":\"Cool bedrijf, je gaat veel met C# werken. Er is minder persoonlijke begeleiding\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7229/account/update",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7229",
+					"path": [
+						"account",
+						"update"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
