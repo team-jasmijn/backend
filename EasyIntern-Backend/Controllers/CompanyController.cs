@@ -19,7 +19,7 @@ namespace EasyIntern_Backend.Controllers
         }
 
         [IsStudent]
-        [HttpGet("")]
+        [HttpGet("match")]
         [HttpGet("{page:int}")]
         public async Task<IActionResult> Index(int? page)
         {
@@ -35,6 +35,7 @@ namespace EasyIntern_Backend.Controllers
             var filter = DynamicFiltersHelper.GenerateMatchingFilterForCompany(student);
             IQueryable<User> users = _context.Users.Where(filter);
             List<User> companies = await users.Skip(TakeAmount * (page ?? 0)).Take(TakeAmount).ToListAsync();
+
             return Json(companies.Select(e => new
             {
                 e.Name,
@@ -43,7 +44,18 @@ namespace EasyIntern_Backend.Controllers
             }));
         }
 
-
-
+        [IsModerator]
+        [HttpGet("")]
+        public async Task<IActionResult> Get()
+        {
+            // Return all companies
+            List<User> companies = await _context.Users.AsNoTracking().Where(e => e.UserType == Data.Enums.UserType.Company).ToListAsync();
+            return Json(companies.Select(e => new
+            {
+                e.Name,
+                e.Email,
+                e.Id,
+            }));
+        }
     }
 }
