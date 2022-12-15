@@ -1,11 +1,11 @@
 ﻿using Data;
+using Data.Enums;
 using Data.Helpers;
 using Data.Models;
 using EasyIntern_Backend.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 namespace EasyIntern_Backend.Controllers
 {
     [Route("company"), Authorize]
@@ -49,7 +49,7 @@ namespace EasyIntern_Backend.Controllers
         public async Task<IActionResult> Get()
         {
             // Return all companies
-            List<User> companies = await _context.Users.AsNoTracking().Where(e => e.UserType == Data.Enums.UserType.Company).ToListAsync();
+            List<User> companies = await _context.Users.AsNoTracking().Where(e => e.UserType == UserType.Company).ToListAsync();
             return Json(companies.Select(e => new
             {
                 e.Name,
