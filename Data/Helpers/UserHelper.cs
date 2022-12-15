@@ -15,6 +15,13 @@ public static class UserHelper
     {
         Claim claim = user.Claims.SingleOrDefault(e => e.Type == "UserType");
         if (claim == null) return false;
-        return claim.Value is "0" or "Student";
+        return claim.Value is "2" or "Student";
+    }
+
+    public static bool IsModerator(this ClaimsPrincipal user)
+    {
+        Claim claim = user.Claims.SingleOrDefault(e => e.Type == "UserType");
+        if (claim == null) return false;
+        return claim.Value is "4" or "Moderator";
     }
 }
