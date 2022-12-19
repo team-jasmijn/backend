@@ -1,4 +1,4 @@
-﻿using Data;
+using Data;
 using Data.Enums;
 using Data.Helpers;
 using Data.Models;
@@ -45,17 +45,21 @@ namespace EasyIntern_Backend.Controllers
         }
 
         [IsModerator]
-        [HttpGet("")]
-        public async Task<IActionResult> Get()
+        [HttpPost("approve/{id:int}")]
+        public async Task<IActionResult> ToggleApproved(int id)
         {
-            // Return all companies
-            List<User> companies = await _context.Users.AsNoTracking().Where(e => e.UserType == UserType.Company).ToListAsync();
-            return Json(companies.Select(e => new
+            var company = _context.Users.SingleOrDefault(e => e.UserType == UserType.Company && e.Id == id);
+
+            if (company == null)
             {
-                e.Name,
-                e.Email,
-                e.Id,
-            }));
+                return NotFound();
+            }
+
+            company.Approved = !company.Approved;
+
+            _context.Users.Update(company);
+            await _context.SaveChangesAsync();
+            return Ok();
         }
     }
 }
