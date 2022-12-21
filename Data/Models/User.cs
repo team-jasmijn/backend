@@ -28,4 +28,5 @@ public class User
     public List<ChatMessage> SentChatMessages { get; set; }
     public List<ProfileSetting> ProfileSettings { get; set; }
     public List<UserRole> Roles { get; set; }
+    public bool Approved { get; set; }
 }

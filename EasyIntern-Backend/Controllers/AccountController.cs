@@ -44,6 +44,7 @@ public class AccountController : Controller
             Email = model.Email,
             TimeZoneId = "Africa/Abidjan",
             UserType = UserType.Student,
+            Approved = true,
             ProfileSettings = new List<ProfileSetting>()
             {
                 new ProfileSetting()
@@ -104,6 +105,7 @@ public class AccountController : Controller
             Name = model.CompanyName,
             Email = model.Email,
             TimeZoneId = "Africa/Abidjan",
+            Approved = false,
             UserType = UserType.Company,
             ProfileSettings = new List<ProfileSetting>()
             {
@@ -172,7 +174,8 @@ public class AccountController : Controller
             Skills = user.ProfileSettings.FirstOrDefault(e => e.Key == "Skills")?.Value,
             Goals = user.ProfileSettings.FirstOrDefault(e => e.Key == "Goals")?.Value,
             Name = user.Name,
-            Email = user.Email
+            Email = user.Email,
+            isAdmin = user.UserType.HasFlag(UserType.Moderator)
         });
     }
 
