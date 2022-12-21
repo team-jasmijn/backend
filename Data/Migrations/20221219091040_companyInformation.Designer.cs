@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20221219091040_companyInformation")]
+    partial class companyInformation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -269,93 +271,81 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -16,
+                            Id = -14,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "Description"
                         },
                         new
                         {
-                            Id = -17,
+                            Id = -15,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "Education"
                         },
                         new
                         {
-                            Id = -18,
+                            Id = -16,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "Goals"
                         },
                         new
                         {
-                            Id = -19,
+                            Id = -17,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "Experience"
                         },
                         new
                         {
-                            Id = -20,
+                            Id = -18,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "School"
                         },
                         new
                         {
-                            Id = -21,
+                            Id = -19,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "EducationLevel"
                         },
                         new
                         {
-                            Id = -22,
+                            Id = -20,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "Qualities"
                         },
                         new
                         {
-                            Id = -23,
+                            Id = -21,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "Hobbies"
                         },
                         new
                         {
-                            Id = -24,
+                            Id = -22,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "WorkCulture"
                         },
                         new
                         {
-                            Id = -25,
+                            Id = -23,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "CompanyName"
                         },
                         new
                         {
-                            Id = -26,
+                            Id = -24,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "City"
                         },
                         new
                         {
-                            Id = -27,
+                            Id = -25,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "LookingFor"
                         },
                         new
                         {
-                            Id = -28,
+                            Id = -26,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "WorkWise"
-                        },
-                        new
-                        {
-                            Id = -29,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "ActiveIn"
-                        },
-                        new
-                        {
-                            Id = -30,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "Recap"
                         });
                 });
 
