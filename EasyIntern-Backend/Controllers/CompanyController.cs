@@ -20,8 +20,7 @@ namespace EasyIntern_Backend.Controllers
 
         [IsStudent]
         [HttpGet("match")]
-        [HttpGet("{page:int}")]
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index()
         {
             int userId = User.Id();
             User student = await _context.Users.AsNoTracking()
@@ -32,9 +31,13 @@ namespace EasyIntern_Backend.Controllers
                 ModelState.AddModelError("UserNotFound", "User was not found");
                 return BadRequest(ModelState);
             }
-            var filter = DynamicFiltersHelper.GenerateMatchingFilterForCompany(student);
-            IQueryable<User> users = _context.Users.Where(filter);
-            List<User> companies = await users.Skip(TakeAmount * (page ?? 0)).Take(TakeAmount).ToListAsync();
+            // Get a random company for now
+            IQueryable<User> users = _context.Users.AsNoTracking()
+                .Include(e => e.ProfileSettings)
+                .Where(e => e.UserType == UserType.Company && e.Approved);
+            
+
+            List<User> companies = await users.ToListAsync();
 
             return Json(companies.Select(e => new
             {
