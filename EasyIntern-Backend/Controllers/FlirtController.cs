@@ -33,11 +33,7 @@ namespace EasyIntern_Backend.Controllers
                 Student = new
                 {
                     e.Student.Name,
-                    ProfileSettings = e.Student.ProfileSettings.Select(o => new
-                    {
-                        o.Key,
-                        o.Value
-                    })
+                    ProfileSettings = new Dictionary<string, string>(e.Student.ProfileSettings.Select(o => new KeyValuePair<string, string>(o.Key, o.Value)))
                 }
             }));
         }
