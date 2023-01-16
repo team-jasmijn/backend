@@ -37,7 +37,7 @@ namespace EasyIntern_Backend.Controllers
             int userId = User.Id();
             return Json(
                 (await _context.Flirts
-                    .Where(flirt => flirt.CompanyId == userId && flirt.Status == FlirtStatus.StudentFlirted)
+                    .Where(flirt => flirt.CompanyId == userId && flirt.Status == FlirtStatus.Sent)
                     .Include(flirt => flirt.Student).ToListAsync()).Select(flirt => flirt.Student
                 ));
         }
