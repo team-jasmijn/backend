@@ -20,7 +20,7 @@ namespace EasyIntern_Backend.Controllers
             _context = context;
         }
 
-        [IsCompany]
+        [Authorize]
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
@@ -29,7 +29,11 @@ namespace EasyIntern_Backend.Controllers
                 return Json(await _context.Users.Where(e => e.UserType == UserType.Company).ToListAsync());
             }
 
-
+            if (User.IsStudent())
+            {
+                return Unauthorized();
+            }
+            
             int userId = User.Id();
             return Json(
                 (await _context.Flirts
