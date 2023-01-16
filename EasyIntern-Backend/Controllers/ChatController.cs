@@ -19,7 +19,7 @@ namespace EasyIntern_Backend.Controllers
     }
 
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> Index(int id)
+    public async Task<IActionResult> Details(int id)
     {
       int userId = User.Id();
       var chat = await _context.Chats.AsNoTracking()
