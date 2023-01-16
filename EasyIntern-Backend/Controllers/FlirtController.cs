@@ -6,6 +6,7 @@ using EasyIntern_Backend.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.Design;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EasyIntern_Backend.Controllers
 {
@@ -19,7 +20,7 @@ namespace EasyIntern_Backend.Controllers
             _context = context;
         }
 
-        [IsCompany]
+        [Authorize]
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
