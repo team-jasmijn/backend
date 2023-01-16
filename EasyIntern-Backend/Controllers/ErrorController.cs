@@ -5,6 +5,7 @@ namespace EasyIntern_Backend.Controllers
     [Route("error")]
     public class ErrorController : Controller
     {
+        //if an endpoint could not be called by default, this method will be called
         [Route("")]
         public IActionResult Index(string status = null)
         {
@@ -19,7 +20,7 @@ namespace EasyIntern_Backend.Controllers
                 case "403" or "401":
                     ModelState.AddModelError("AuthenticationError", "You are not logged in or you do not have the permission to do this action");
                     break;
-                default:
+                default: //default means anything else
                     ModelState.AddModelError("UnknownError", "An unknown error occurred");
                     break;
             }
