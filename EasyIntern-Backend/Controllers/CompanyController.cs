@@ -45,7 +45,7 @@ namespace EasyIntern_Backend.Controllers
         }
 
         [IsModerator]
-        [HttpPost("approve/{id:int}")]
+        [HttpPost("{id:int}/approve")]
         public async Task<IActionResult> ToggleApproved(int id)
         {
             var company = _context.Users.SingleOrDefault(e => e.UserType == UserType.Company && e.Id == id);
