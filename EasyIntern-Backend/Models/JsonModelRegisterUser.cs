@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Data.Enums;
 
 namespace EasyIntern_Backend.Models;
 
-public class JsonModelRegisterStudent
+public class JsonModelRegisterUser
 {
     
     public string Name { get; set; }
@@ -19,4 +20,5 @@ public class JsonModelRegisterStudent
     public string Education { get; set; }
     public int EducationLevel { get; set; }
     public string School { get; set; }
+    public UserType UserType { get; set; }
 }

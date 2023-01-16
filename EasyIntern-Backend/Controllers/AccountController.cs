@@ -26,128 +26,105 @@ public class AccountController : Controller
         _context = context;
     }
 
-    [HttpPost("register-student")]
-    public async Task<IActionResult> RegisterStudent([FromBody] JsonModelRegisterStudent model )
+    [HttpPost("register")]
+    public async Task<IActionResult> RegisterStudent([FromBody] JsonModelRegisterUser model )
     {
         if (User.Identity?.IsAuthenticated is true) ModelState.AddModelError("Authentication", "User is already logged in");
         if (model.Password != model.RepeatPassword) ModelState.AddModelError("RepeatPassword", "Passwords do not match");
+        if (model.UserType != UserType.Company && model.UserType != UserType.Student) ModelState.AddModelError("UserType", "UserType is not allowed");
         if (await _context.Users.AnyAsync(e => e.Email == model.Email)) ModelState.AddModelError("Email","A user has already been found using this email");
-        
+        //check if the model is correct
         if (!ModelState.IsValid)
         {
             return Json(ModelState);
         }
+        //predefine the users settings and fill it if the data is not empty
+        List<ProfileSetting> profileSettings = new()
+        {
+            new ProfileSetting()
+            {
+                Key = nameof(model.EducationLevel),
+                Value = model.EducationLevel.ToString()
+            }
+        };
+        
+        if (!string.IsNullOrEmpty(model.Education))
+        {
+            profileSettings.Add(new ProfileSetting()
+            {
+                Key = nameof(model.Education),
+                Value = model.Education
+            });
+        }
+        
+        if (!string.IsNullOrEmpty(model.Experience))
+        {
+            profileSettings.Add(new ProfileSetting()
+            {
+                Key = nameof(model.Experience),
+                Value = model.Experience
+            });
+        }
+        
+        if (!string.IsNullOrEmpty(model.Goals))
+        {
+            profileSettings.Add(new ProfileSetting()
+            {
+                Key = nameof(model.Goals),
+                Value = model.Goals
+            });
+        }
+        
+        if (!string.IsNullOrEmpty(model.Description))
+        {
+            profileSettings.Add(new ProfileSetting()
+            {
+                Key = nameof(model.Description),
+                Value = model.Description
+            });
+        }
 
+        if (!string.IsNullOrEmpty(model.School))
+        {
+            profileSettings.Add(new ProfileSetting()
+            {
+                Key = nameof(model.School),
+                Value = model.School
+            });
+        }
+        
         var user = new User()
         {
             Name = model.Name,
             Email = model.Email,
             TimeZoneId = "Africa/Abidjan",
-            UserType = UserType.Student,
-            Approved = true,
-            ProfileSettings = new List<ProfileSetting>()
-            {
-                new ProfileSetting()
-                {
-                    Key = nameof(model.Description),
-                    Value = model.Description
-                },
-                 new ProfileSetting()
-                 {
-                     Key = nameof(model.Experience),
-                     Value = model.Experience
-                 },
-                 new ProfileSetting()
-                 {
-                      Key = nameof(model.Education),
-                      Value = model.Education,
-                 },
-                 new ProfileSetting()
-                 {
-                     Key = nameof(model.Goals),
-                     Value = model.Goals
-                 },
-                 new ProfileSetting()
-                 {
-                     Key = nameof(model.EducationLevel),
-                     Value = model.EducationLevel.ToString()
-                 },
-                 new ProfileSetting()
-                 {
-                     Key = nameof(model.School),
-                     Value = model.School
-                 }
-            }
+            UserType = model.UserType,
+            Approved = model.UserType == UserType.Student, //approve only as student
+            ProfileSettings = profileSettings
         };
-
+        //hashes the users password and creates a salt
         BCryptHelper.ConfigureUserPassword(user, model.Password);
 
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
+        //insert the user
         return Ok();
-    }
-
-    [HttpPost("register-company")]
-    public async Task<IActionResult> RegisterCompany([FromBody] JsonModelRegisterCompany model)
-    {
-        if (User.Identity?.IsAuthenticated is true) ModelState.AddModelError("Authentication", "User is already logged in");
-        if (model.Password != model.RepeatPassword) ModelState.AddModelError("RepeatPassword", "Passwords do not match");
-        if (await _context.Users.AnyAsync(e => e.Email == model.Email)) ModelState.AddModelError("Email", "A user has already been found using this email");
-
-        if (!ModelState.IsValid)
-        {
-            return Json(ModelState);
-        }
-
-        var user = new User()
-        {
-            Name = model.CompanyName,
-            Email = model.Email,
-            TimeZoneId = "Africa/Abidjan",
-            Approved = false,
-            UserType = UserType.Company,
-            ProfileSettings = new List<ProfileSetting>()
-            {
-                new ProfileSetting()
-                {
-                    Key = nameof(model.Description),
-                    Value = model.Description
-                },
-                new ProfileSetting()
-                {
-                    Key = nameof(model.Education),
-                    Value = model.Education
-                }
-            }
-        };
-        BCryptHelper.ConfigureUserPassword(user, model.Password);
-
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-        // Return the user object
-        // TODO: convert this to something more portable
-        return Json(new  {
-            Id = user.Id,
-            Name = user.Name,
-            Email = user.Email,
-            UserType = user.UserType,
-            ProfileSettings = user.ProfileSettings.ToDictionary(e => e.Key, e => e.Value)
-        });
     }
 
     [HttpGet("validate")]
     [Authorize]
     public IActionResult Validate() => Ok(); //check if user is logged in
 
+    
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] JsonModelAccountLogin model)
     {
-        const string safeReturnError = "Email and password do not match";
+        const string safeReturnError = "Email and password do not match"; //return a safe error string to prevent brute force attacks
         User dbUser = await _context.Users.FirstOrDefaultAsync(e => e.Email == model.Email);
         if (dbUser == null) ModelState.AddModelError("AuthenticationError", safeReturnError);
-        if (!BCryptHelper.ValidatePassword(dbUser, model.Password))
-            ModelState.AddModelError("AuthenticationError", safeReturnError);
+        if (!BCryptHelper.ValidatePassword(dbUser, model.Password)) ModelState.AddModelError("AuthenticationError", safeReturnError);
+        //check if the sent model is valid
         if (!ModelState.IsValid)
         {
             return Json(ModelState);
@@ -162,11 +139,13 @@ public class AccountController : Controller
     {
         int userId = User.Id();
         User user = await _context.Users.Include(e => e.ProfileSettings).AsNoTracking().FirstOrDefaultAsync(e => e.Id == userId);
+        //get the users profile data
         if (user == null)
         {
             ModelState.AddModelError("UserNotFound", "User was not found");
             return Json(ModelState);
         }
+        
         return Ok(new
         {
             Education = user.ProfileSettings.FirstOrDefault(e => e.Key == "Education")?.Value,
@@ -192,8 +171,7 @@ public class AccountController : Controller
             ModelState.AddModelError("UserNotFound", "User was not found");
             return BadRequest(ModelState);
         }
-
-
+        //remove the single exception (name) from the profilesetting data
         if (model.ContainsKey("name"))
         {
             user.Name = model["name"];
@@ -202,11 +180,13 @@ public class AccountController : Controller
 
         foreach (KeyValuePair<string, string> pair in model)
         {
+            //check if the profilesetting can exists
             if (!await _context.ProfilesettingsOptions.AnyAsync(e => e.Key == pair.Key))
             {
                 ModelState.AddModelError("InvalidProfileSetting", $"The key {pair.Key} cannot be added to your profile");
                 continue;
             }
+            //check if the profilesetting already exists. If not, add it
             if (user.ProfileSettings.Any(e => e.Key == pair.Key))
             {
                 user.ProfileSettings.First(e => e.Key == pair.Key).Value = pair.Value;
@@ -223,12 +203,15 @@ public class AccountController : Controller
 
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
+        //return the profilesettings that could not be inserted/updated
         return Ok(ModelState);
     }
 
+    //this should not be called by an endpoint in the API
     [NonAction]
     private string GetJwtToken(User user)
     {
+        //do some magic that returns an valid JWT Bearer token based on the given user
         string issuer = _config["Jwt:Issuer"];
         string audience = _config["Jwt:Audience"];
         byte[] key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
