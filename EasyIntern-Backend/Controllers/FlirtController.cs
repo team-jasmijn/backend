@@ -82,5 +82,22 @@ namespace EasyIntern_Backend.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
+        
+        [IsCompany]
+        [HttpPost("{flirtId:int}/accept")]
+        public async Task<IActionResult> AcceptStudent(int flirtId)
+        {
+            int userId = User.Id();
+            Flirt flirt = await _context.Flirts.FirstOrDefaultAsync(e => e.Id == flirtId && e.CompanyId == userId && e.Status == FlirtStatus.Sent);
+            if (flirt == null)
+            {
+                ModelState.AddModelError("FlirtNotFound", "Flirt was not found");
+                return NotFound(ModelState);
+            }
+            flirt.Status = FlirtStatus.Accepted;
+            _context.Flirts.Update(flirt);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
     }
 }
