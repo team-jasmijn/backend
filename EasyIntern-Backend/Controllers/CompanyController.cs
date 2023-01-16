@@ -1,4 +1,4 @@
-using Data;
+﻿using Data;
 using Data.Enums;
 using Data.Helpers;
 using Data.Models;
@@ -39,12 +39,14 @@ namespace EasyIntern_Backend.Controllers
 
             List<User> companies = await users.ToListAsync();
 
-            return Json(companies.Select(e => new
+            var random = new Random();
+
+            return Json(companies.OrderBy(a => random.Next()).ToList().Select(e => new
             {
                 e.Name,
                 e.Email,
                 e.Id,
-            }));
+            }).First());
         }
 
         [IsModerator]
