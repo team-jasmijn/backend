@@ -8,6 +8,7 @@ namespace Data.Models;
 [Index(new string[] { nameof(Id), nameof(CreateDate), nameof(ModifyDate) })]
 public class Flirt
 {
+    // A flirt is basically just a message request
     [Key]
     public int Id { get; set; }
     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]

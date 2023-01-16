@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20221215134939_added more profile setting options")]
+    partial class addedmoreprofilesettingoptions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,9 +96,6 @@ namespace Data.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ModifyDate")
                         .HasColumnType("datetime(6)");
@@ -272,93 +271,51 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -16,
+                            Id = -9,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "Description"
                         },
                         new
                         {
-                            Id = -17,
+                            Id = -10,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "Education"
                         },
                         new
                         {
-                            Id = -18,
+                            Id = -11,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "Goals"
                         },
                         new
                         {
-                            Id = -19,
+                            Id = -12,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "Experience"
                         },
                         new
                         {
-                            Id = -20,
+                            Id = -13,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "School"
                         },
                         new
                         {
-                            Id = -21,
+                            Id = -14,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "EducationLevel"
                         },
                         new
                         {
-                            Id = -22,
+                            Id = -15,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "Qualities"
                         },
                         new
                         {
-                            Id = -23,
+                            Id = -16,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Key = "Hobbies"
-                        },
-                        new
-                        {
-                            Id = -24,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "WorkCulture"
-                        },
-                        new
-                        {
-                            Id = -25,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "CompanyName"
-                        },
-                        new
-                        {
-                            Id = -26,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "City"
-                        },
-                        new
-                        {
-                            Id = -27,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "LookingFor"
-                        },
-                        new
-                        {
-                            Id = -28,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "WorkWise"
-                        },
-                        new
-                        {
-                            Id = -29,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "ActiveIn"
-                        },
-                        new
-                        {
-                            Id = -30,
-                            CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Key = "Recap"
                         });
                 });
 
@@ -390,9 +347,6 @@ namespace Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<bool>("Approved")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAddOrUpdate()
@@ -429,7 +383,6 @@ namespace Data.Migrations
                         new
                         {
                             Id = -1,
-                            Approved = false,
                             CreateDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "artimmerman@landstede.nl",
                             Hash = "$2a$11$A1PAL2tcek6yMqg8VVVzauteuOFGnD1S4DoqlPP/Hf9ulBwfJTS8y",
