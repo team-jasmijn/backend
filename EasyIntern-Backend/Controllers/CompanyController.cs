@@ -19,8 +19,8 @@ namespace EasyIntern_Backend.Controllers
         {
             _context = context;
         }
-        
-        [Authorize]
+
+        [IsCompany]
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
@@ -29,18 +29,13 @@ namespace EasyIntern_Backend.Controllers
                 return Json(await _context.Users.Where(e => e.UserType == UserType.Company).ToListAsync());
             }
 
-            if (!User.IsStudent())//user is company, return all students that have flirted with the users company.
-            {
 
-                int userId = User.Id();
-                return Json(
-                    (await _context.Flirts
-                        .Where(flirt => flirt.CompanyId == userId && flirt.Status == FlirtStatus.StudentFlirted)
-                        .Include(flirt => flirt.Student).ToListAsync()).Select(flirt => flirt.Student
-                    ));
-            }
-
-            return Json(Array.Empty<User>()); //return an empty array
+            int userId = User.Id();
+            return Json(
+                (await _context.Flirts
+                    .Where(flirt => flirt.CompanyId == userId && flirt.Status == FlirtStatus.StudentFlirted)
+                    .Include(flirt => flirt.Student).ToListAsync()).Select(flirt => flirt.Student
+                ));
         }
 
 
