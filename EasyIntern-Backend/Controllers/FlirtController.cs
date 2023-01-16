@@ -34,11 +34,8 @@ namespace EasyIntern_Backend.Controllers
                 Student = new
                 {
                     e.Student.Name,
-                    ProfileSettings = e.Student.ProfileSettings.Select(o => new
-                    {
-                        o.Key,
-                        o.Value
-                    })
+                    ProfileSettings = new Dictionary<string, string>(
+                        e.Student.ProfileSettings.Select(o => new KeyValuePair<string, string>(o.Key, o.Value)))
                 }
             }));
         }
@@ -48,12 +45,15 @@ namespace EasyIntern_Backend.Controllers
         [HttpPost("")]
         public async Task<IActionResult> FlirtCompany([FromBody] JsonFlirtCreate model)
         {
-            User company = await _context.Users.FirstOrDefaultAsync(e => e.Id == model.CompanyId && e.UserType.HasFlag(UserType.Company));
+            User company =
+                await _context.Users.FirstOrDefaultAsync(e =>
+                    e.Id == model.CompanyId && e.UserType.HasFlag(UserType.Company));
             if (company == null)
             {
                 ModelState.AddModelError("UserNotFound", "User was not found");
                 return NotFound(ModelState);
             }
+
             Flirt flirt = new Flirt()
             {
                 CompanyId = model.CompanyId,
@@ -71,12 +71,14 @@ namespace EasyIntern_Backend.Controllers
         public async Task<IActionResult> DenyStudent(int flirtId)
         {
             int userId = User.Id();
-            Flirt flirt = await _context.Flirts.FirstOrDefaultAsync(e => e.Id == flirtId && e.CompanyId == userId && e.Status == FlirtStatus.Sent);
+            Flirt flirt = await _context.Flirts.FirstOrDefaultAsync(e =>
+                e.Id == flirtId && e.CompanyId == userId && e.Status == FlirtStatus.Sent);
             if (flirt == null)
             {
                 ModelState.AddModelError("FlirtNotFound", "Flirt was not found");
                 return NotFound(ModelState);
             }
+
             flirt.Status = FlirtStatus.Rejected;
             _context.Flirts.Update(flirt);
             await _context.SaveChangesAsync();

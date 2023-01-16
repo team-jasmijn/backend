@@ -175,7 +175,7 @@ public class AccountController : Controller
             Goals = user.ProfileSettings.FirstOrDefault(e => e.Key == "Goals")?.Value,
             Name = user.Name,
             Email = user.Email,
-            isAdmin = user.UserType.HasFlag(UserType.Moderator)
+            Role = user.UserType.ToString()
         });
     }
 
