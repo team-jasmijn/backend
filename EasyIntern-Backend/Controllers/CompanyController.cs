@@ -19,7 +19,8 @@ namespace EasyIntern_Backend.Controllers
         {
             _context = context;
         }
-        [IsCompany]
+        
+        [Authorize]
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
