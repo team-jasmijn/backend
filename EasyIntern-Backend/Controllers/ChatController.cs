@@ -18,7 +18,7 @@ namespace EasyIntern_Backend.Controllers
       _context = context;
     }
 
-    [HttpGet("<id:int>")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> Index(int id)
     {
       int userId = User.Id();
@@ -46,7 +46,7 @@ namespace EasyIntern_Backend.Controllers
       return Json(chats);
     }
 
-    [HttpPost("<id:int>/message")]
+    [HttpPost("{id:int}/message")]
     public async Task<IActionResult> SendMessage(int id, [FromBody] JsonChatMessageCreate model)
     {
       int userId = User.Id();
