@@ -65,6 +65,10 @@ namespace EasyIntern_Backend.Controllers
                 .Include(e => e.ProfileSettings)
                 .Where(e => e.UserType == UserType.Company && e.Approved);
             
+            if (users.Count() == 0) {
+                ModelState.AddModelError("NoCompanies", "No companies found");
+                return Json(null);
+            }
 
             List<User> companies = await users.ToListAsync();
 
