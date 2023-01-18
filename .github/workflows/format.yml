@@ -1,0 +1,40 @@
+name: Format check on push
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  dotnet-format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Add dotnet-format problem matcher
+        uses: xt0rted/dotnet-format-problem-matcher@v1
+
+      - name: Restore dotnet tools
+        uses: xt0rted/dotnet-tool-restore@v1
+
+      - name: Run dotnet format
+        uses: xt0rted/dotnet-format@v1
+        with:
+          action: fix
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git diff-index --quiet HEAD || git commit -a -m 'refactor: format code
+
+          Co-authored-by: ${{ github.event.comment.user.login }} <${{ github.event.comment.user.id }}+${{ github.event.comment.user.login }}@users.noreply.github.com>'
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
