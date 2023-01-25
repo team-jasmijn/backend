@@ -23,16 +23,16 @@ public static class SeedConfiguration
     public static void Seed(ModelBuilder builder)
     {
         builder.Entity<User>().HasData(new User()
-            {
-                Email = "artimmerman@landstede.nl",
-                CreateDate = BaseDate,
-                Hash = "$2a$11$A1PAL2tcek6yMqg8VVVzauteuOFGnD1S4DoqlPP/Hf9ulBwfJTS8y", // 'testen' as password
-                Salt = "$2a$11$FIhli04K3CDnTp4ObcYIb.",
-                UserType = UserType.Moderator,
-                TimeZoneId = "Africa/Abidjan",
-                Id = -1,
-                Name = "Arjan Timmerman"
-            }
+        {
+            Email = "artimmerman@landstede.nl",
+            CreateDate = BaseDate,
+            Hash = "$2a$11$A1PAL2tcek6yMqg8VVVzauteuOFGnD1S4DoqlPP/Hf9ulBwfJTS8y", // 'testen' as password
+            Salt = "$2a$11$FIhli04K3CDnTp4ObcYIb.",
+            UserType = UserType.Moderator,
+            TimeZoneId = "Africa/Abidjan",
+            Id = -1,
+            Name = "Arjan Timmerman"
+        }
         );
 
         builder.AddProfileSettingOption("Description");
