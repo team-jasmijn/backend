@@ -17,6 +17,7 @@ builder.Services.AddControllers().AddJsonOptions(e =>
 {
     e.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     e.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    e.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
 JsonConvert.DefaultSettings = () => new JsonSerializerSettings
