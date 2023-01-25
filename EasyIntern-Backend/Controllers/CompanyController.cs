@@ -33,7 +33,7 @@ namespace EasyIntern_Backend.Controllers
             {
                 return Unauthorized();
             }
-            
+
             int userId = User.Id();
             return Json(
                 (await _context.Flirts
@@ -53,7 +53,7 @@ namespace EasyIntern_Backend.Controllers
             User student = await _context.Users.AsNoTracking()
                 .Include(e => e.ProfileSettings)
                 .SingleOrDefaultAsync(u => u.Id == userId);
-                
+
             if (student == null)
             {
                 ModelState.AddModelError("UserNotFound", "User was not found");
@@ -64,8 +64,9 @@ namespace EasyIntern_Backend.Controllers
             IQueryable<User> users = _context.Users.AsNoTracking()
                 .Include(e => e.ProfileSettings)
                 .Where(e => e.UserType == UserType.Company && e.Approved);
-            
-            if (users.Count() == 0) {
+
+            if (users.Count() == 0)
+            {
                 ModelState.AddModelError("NoCompanies", "No companies found");
                 return Json(null);
             }

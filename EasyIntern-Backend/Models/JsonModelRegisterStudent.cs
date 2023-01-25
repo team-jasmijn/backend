@@ -4,7 +4,7 @@ namespace EasyIntern_Backend.Models;
 
 public class JsonModelRegisterStudent
 {
-    
+
     public string Name { get; set; }
     [Required]
     [EmailAddress]

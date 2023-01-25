@@ -42,7 +42,7 @@ namespace EasyIntern_Backend.Controllers
                 }
             });
 
-            return Json(selectedFlirts.ToList() );
+            return Json(selectedFlirts.ToList());
         }
 
 
@@ -89,7 +89,7 @@ namespace EasyIntern_Backend.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
-        
+
         [IsCompany]
         [HttpPost("{flirtId:int}/accept")]
         public async Task<IActionResult> AcceptStudent(int flirtId)
