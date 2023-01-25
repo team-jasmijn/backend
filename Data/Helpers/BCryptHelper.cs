@@ -12,6 +12,8 @@ public class BCryptHelper
 
     public static bool ValidatePassword(User user, string password)
     {
+        if (user == null) return false;
+
         return BCrypt.Net.BCrypt.Verify(password + user.Salt, user.Hash);
     }
 }

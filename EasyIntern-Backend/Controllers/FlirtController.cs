@@ -3,6 +3,7 @@ using Data.Enums;
 using Data.Helpers;
 using Data.Models;
 using EasyIntern_Backend.Attributes;
+using EasyIntern_Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.Design;
@@ -34,30 +35,30 @@ namespace EasyIntern_Backend.Controllers
                 Student = new
                 {
                     e.Student.Name,
-                    ProfileSettings = e.Student.ProfileSettings.Select(o => new
-                    {
-                        o.Key,
-                        o.Value
-                    })
+                    ProfileSettings = new Dictionary<string, string>(
+                        e.Student.ProfileSettings.Select(o => new KeyValuePair<string, string>(o.Key, o.Value)))
                 }
             }));
         }
 
 
         [IsStudent]
-        [HttpPost("flirt-company/{companyId:int}")]
-        public async Task<IActionResult> FlirtCompany(int companyId)
+        [HttpPost("")]
+        public async Task<IActionResult> FlirtCompany([FromBody] JsonFlirtCreate model)
         {
-            User company = await _context.Users.FirstOrDefaultAsync(e => e.Id == companyId && e.UserType.HasFlag(UserType.Company));
+            User company =
+                await _context.Users.FirstOrDefaultAsync(e =>
+                    e.Id == model.CompanyId && e.UserType.HasFlag(UserType.Company));
             if (company == null)
             {
                 ModelState.AddModelError("UserNotFound", "User was not found");
                 return NotFound(ModelState);
             }
+
             Flirt flirt = new Flirt()
             {
-                CompanyId = companyId,
-                Status = FlirtStatus.StudentFlirted,
+                CompanyId = model.CompanyId,
+                Status = FlirtStatus.Sent,
                 CreateDate = DateTime.UtcNow,
                 StudentId = User.Id()
             };
@@ -67,44 +68,19 @@ namespace EasyIntern_Backend.Controllers
         }
 
         [IsCompany]
-        [HttpPost("flirt-student/{flirtId:int}")]
-        public async Task<IActionResult> FlirtStudent(int flirtId)
-        {
-            int userId = User.Id();
-            Flirt flirt = await _context.Flirts.FirstOrDefaultAsync(e => e.Id == flirtId && e.CompanyId == userId && e.Status == FlirtStatus.StudentFlirted);
-            if (flirt == null)
-            {
-                ModelState.AddModelError("FlirtNotFound", "Flirt was not found");
-                return NotFound(ModelState);
-            }
-            flirt.Status = FlirtStatus.CompanyFlirted;
-            Chat chat = new Chat()
-            {
-                CompanyId = flirt.CompanyId,
-                StudentId = flirt.StudentId
-            };
-            _context.Chats.Add(chat);
-            _context.Flirts.Update(flirt);
-            await _context.SaveChangesAsync();
-            return Ok(new
-            {
-                chat.Id,
-                chat.StudentId
-            });
-        }
-
-        [IsCompany]
-        [HttpPost("deny-student/{flirtId:int}")]
+        [HttpPost("{flirtId:int}/reject")]
         public async Task<IActionResult> DenyStudent(int flirtId)
         {
             int userId = User.Id();
-            Flirt flirt = await _context.Flirts.FirstOrDefaultAsync(e => e.Id == flirtId && e.CompanyId == userId && e.Status == FlirtStatus.StudentFlirted);
+            Flirt flirt = await _context.Flirts.FirstOrDefaultAsync(e =>
+                e.Id == flirtId && e.CompanyId == userId && e.Status == FlirtStatus.Sent);
             if (flirt == null)
             {
                 ModelState.AddModelError("FlirtNotFound", "Flirt was not found");
                 return NotFound(ModelState);
             }
-            flirt.Status = FlirtStatus.Finished;
+
+            flirt.Status = FlirtStatus.Rejected;
             _context.Flirts.Update(flirt);
             await _context.SaveChangesAsync();
             return Ok();

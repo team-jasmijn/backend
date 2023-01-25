@@ -41,5 +41,14 @@ public static class SeedConfiguration
         builder.AddProfileSettingOption("Experience");
         builder.AddProfileSettingOption("School");
         builder.AddProfileSettingOption("EducationLevel");
+        builder.AddProfileSettingOption("Qualities");
+        builder.AddProfileSettingOption("Hobbies");
+        builder.AddProfileSettingOption("WorkCulture");
+        builder.AddProfileSettingOption("CompanyName");
+        builder.AddProfileSettingOption("City");
+        builder.AddProfileSettingOption("LookingFor");
+        builder.AddProfileSettingOption("WorkWise");
+        builder.AddProfileSettingOption("ActiveIn");
+        builder.AddProfileSettingOption("Recap");
     }
 }
