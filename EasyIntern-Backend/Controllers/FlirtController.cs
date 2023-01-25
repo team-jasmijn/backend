@@ -26,9 +26,12 @@ namespace EasyIntern_Backend.Controllers
         {
             int userId = User.Id();
             var flirts = await _context.Flirts.AsNoTracking()
+                .Where(e => e.Status != FlirtStatus.Accepted)
                 .Include(e => e.Student)
-                .ThenInclude(e => e.ProfileSettings).Where(e => e.CompanyId == userId).ToListAsync();
-            return Json(flirts.Select(e => new
+                .ThenInclude(e => e.ProfileSettings).Where(e => e.CompanyId == userId)
+                .ToListAsync();
+
+            var selectedFlirts = flirts.Select(e => new
             {
                 e.Id,
                 Student = new
@@ -37,7 +40,9 @@ namespace EasyIntern_Backend.Controllers
                     ProfileSettings = new Dictionary<string, string>(
                         e.Student.ProfileSettings.Select(o => new KeyValuePair<string, string>(o.Key, o.Value)))
                 }
-            }));
+            });
+
+            return Json(selectedFlirts.ToList() );
         }
 
 
