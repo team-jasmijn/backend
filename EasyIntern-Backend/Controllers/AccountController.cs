@@ -150,7 +150,7 @@ public class AccountController : Controller
             ModelState.AddModelError("AuthenticationError", safeReturnError);
         if (!ModelState.IsValid)
         {
-            return Json(ModelState);
+            return BadRequest(ModelState);
         }
         string token = GetJwtToken(dbUser);
         return Ok(token);
