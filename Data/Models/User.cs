@@ -6,7 +6,7 @@ using Data.Enums;
 
 namespace Data.Models;
 
-[Index(new string[] { nameof(Id), nameof(CreateDate), nameof(ModifyDate)})]
+[Index(new string[] { nameof(Id), nameof(CreateDate), nameof(ModifyDate) })]
 public class User
 {
     [Key]
