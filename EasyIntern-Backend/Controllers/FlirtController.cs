@@ -44,7 +44,7 @@ namespace EasyIntern_Backend.Controllers
 
         [IsStudent]
         [HttpPost("")]
-        public async Task<IActionResult> FlirtCompany([FromBody] JsonFlirtCreate model)
+        public async Task<IActionResult> FlirtCompany([FromBody] JsonModelFlirtCreate model)
         {
             User company =
                 await _context.Users.FirstOrDefaultAsync(e =>
