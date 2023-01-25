@@ -6,6 +6,7 @@ using Data.Enums;
 namespace Data.Models;
 
 [Index(new string[] { nameof(Id), nameof(CreateDate), nameof(ModifyDate) })]
+[Index(new string[] { nameof(CompanyId), nameof(StudentId) }, IsUnique = true)]
 public class Flirt
 {
     // A flirt is basically just a message request
