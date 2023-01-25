@@ -70,7 +70,7 @@ namespace EasyIntern_Backend.Controllers
 
             var random = new Random();
 
-            return Json(companies.OrderBy(a => random.Next()).ToList().Select(e => new
+            return Json(companies.OrderBy(_ => random.Next()).ToList().Select(e => new
             {
                 e.Name,
                 e.Email,
