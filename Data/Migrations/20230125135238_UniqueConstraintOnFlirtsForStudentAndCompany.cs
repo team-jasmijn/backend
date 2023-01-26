@@ -8,9 +8,9 @@ namespace Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropIndex(
-                name: "IX_Flirts_CompanyId",
-                table: "Flirts");
+            // migrationBuilder.DropIndex(
+            //     name: "IX_Flirts_CompanyId",
+            //     table: "Flirts");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Flirts_CompanyId_StudentId",
@@ -25,10 +25,10 @@ namespace Data.Migrations
                 name: "IX_Flirts_CompanyId_StudentId",
                 table: "Flirts");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Flirts_CompanyId",
-                table: "Flirts",
-                column: "CompanyId");
+            // migrationBuilder.CreateIndex(
+            //     name: "IX_Flirts_CompanyId",
+            //     table: "Flirts",
+            //     column: "CompanyId");
         }
     }
 }
