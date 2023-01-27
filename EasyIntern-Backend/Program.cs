@@ -82,7 +82,7 @@ app.UseSession();
 app.UseStaticFiles();
 
 app.UseAuthentication();
-app.UseAuthorization(); 
+app.UseAuthorization();
 app.UseEndpoints(e =>
 {
     e.MapControllers();

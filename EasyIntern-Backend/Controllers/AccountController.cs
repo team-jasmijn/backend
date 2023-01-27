@@ -27,12 +27,12 @@ public class AccountController : Controller
     }
 
     [HttpPost("register-student")]
-    public async Task<IActionResult> RegisterStudent([FromBody] JsonModelRegisterStudent model )
+    public async Task<IActionResult> RegisterStudent([FromBody] JsonModelRegisterStudent model)
     {
         if (User.Identity?.IsAuthenticated is true) ModelState.AddModelError("Authentication", "User is already logged in");
         if (model.Password != model.RepeatPassword) ModelState.AddModelError("RepeatPassword", "Passwords do not match");
-        if (await _context.Users.AnyAsync(e => e.Email == model.Email)) ModelState.AddModelError("Email","A user has already been found using this email");
-        
+        if (await _context.Users.AnyAsync(e => e.Email == model.Email)) ModelState.AddModelError("Email", "A user has already been found using this email");
+
         if (!ModelState.IsValid)
         {
             return Json(ModelState);
@@ -127,7 +127,8 @@ public class AccountController : Controller
         await _context.SaveChangesAsync();
         // Return the user object
         // TODO: convert this to something more portable
-        return Json(new  {
+        return Json(new
+        {
             Id = user.Id,
             Name = user.Name,
             Email = user.Email,
