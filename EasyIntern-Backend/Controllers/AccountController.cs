@@ -170,6 +170,7 @@ public class AccountController : Controller
         }
         return Ok(new
         {
+            Id = user.Id,
             Education = user.ProfileSettings.FirstOrDefault(e => e.Key == "Education")?.Value,
             EducationLevel = user.ProfileSettings.FirstOrDefault(e => e.Key == "EducationLevel")?.Value,
             Skills = user.ProfileSettings.FirstOrDefault(e => e.Key == "Skills")?.Value,
