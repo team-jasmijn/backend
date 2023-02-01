@@ -15,6 +15,6 @@ public class IsStudentFilter : ActionFilterAttribute
         if (context.HttpContext.User.IsStudent())
             return;
 
-        context.Result = new BadRequestResult();
+        context.Result = new UnauthorizedResult();
     }
 }
