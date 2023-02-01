@@ -16,6 +16,7 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddControllers().AddJsonOptions(e =>
 {
     e.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    e.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     e.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
 
