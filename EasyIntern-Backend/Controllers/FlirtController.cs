@@ -50,12 +50,19 @@ namespace EasyIntern_Backend.Controllers
         [HttpPost("")]
         public async Task<IActionResult> FlirtCompany([FromBody] JsonFlirtCreate model)
         {
-            User company =
-                await _context.Users.FirstOrDefaultAsync(e =>
-                    e.Id == model.CompanyId && e.UserType.HasFlag(UserType.Company));
+            int studentId = User.Id();
+            bool flirtExists = await _context.Flirts.AnyAsync(e => e.StudentId == studentId && e.CompanyId == model.CompanyId);
+
+            if (flirtExists)
+            {
+                ModelState.AddModelError("AlreadyFlirted", "You already flirted with this company");
+                return BadRequest(ModelState);
+            }
+
+            User company = await _context.Users.FirstOrDefaultAsync(e => e.Id == model.CompanyId && e.UserType.HasFlag(UserType.Company));
             if (company == null)
             {
-                ModelState.AddModelError("UserNotFound", "User was not found");
+                ModelState.AddModelError("UserNotFound", "Company was not found");
                 return NotFound(ModelState);
             }
 
@@ -64,7 +71,7 @@ namespace EasyIntern_Backend.Controllers
                 CompanyId = model.CompanyId,
                 Status = FlirtStatus.Sent,
                 CreateDate = DateTime.UtcNow,
-                StudentId = User.Id()
+                StudentId = studentId
             };
             _context.Flirts.Add(flirt);
             await _context.SaveChangesAsync();
