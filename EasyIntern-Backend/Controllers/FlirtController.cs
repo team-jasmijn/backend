@@ -103,6 +103,13 @@ namespace EasyIntern_Backend.Controllers
             }
             flirt.Status = FlirtStatus.Accepted;
             _context.Flirts.Update(flirt);
+            
+            _context.Chats.Add(new Chat()
+            {
+                StudentId = flirt.StudentId,
+                CompanyId = flirt.CompanyId
+            });
+            
             await _context.SaveChangesAsync();
             return Ok();
         }
