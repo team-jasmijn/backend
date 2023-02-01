@@ -48,7 +48,7 @@ namespace EasyIntern_Backend.Controllers
 
         [IsStudent]
         [HttpPost("")]
-        public async Task<IActionResult> FlirtCompany([FromBody] JsonFlirtCreate model)
+        public async Task<IActionResult> FlirtCompany([FromBody] JsonModelFlirtCreate model)
         {
             int studentId = User.Id();
             bool flirtExists = await _context.Flirts.AnyAsync(e => e.StudentId == studentId && e.CompanyId == model.CompanyId);
